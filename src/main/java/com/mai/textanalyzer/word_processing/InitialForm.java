@@ -5,8 +5,7 @@
  */
 package com.mai.textanalyzer.word_processing;
 
-import ru.textanalysis.tfwwt.jmorfsdk.*;
-import ru.textanalysis.tfwwt.jmorfsdk.load.*;
+import ru.textanalysis.tawt.jmorfsdk.*;
 import java.util.NoSuchElementException;
 
 /**

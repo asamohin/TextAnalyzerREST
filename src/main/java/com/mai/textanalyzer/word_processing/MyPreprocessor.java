@@ -6,8 +6,8 @@
 package com.mai.textanalyzer.word_processing;
 
 import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
-import ru.textanalysis.tfwwt.jmorfsdk.*;
-import ru.textanalysis.tfwwt.jmorfsdk.load.*;
+import ru.textanalysis.tawt.jmorfsdk.*;
+import ru.textanalysis.tawt.jmorfsdk.loader.JMorfSdkFactory;
 /**
  *
  * @author Sergey
@@ -22,7 +22,7 @@ public class MyPreprocessor extends CommonPreprocessor {
         Additionally it forces lower case for all tokens.
      */
     
-    JMorfSdk jMorfSdk = JMorfSdkLoad.loadFullLibrary();
+    JMorfSdk jMorfSdk = JMorfSdkFactory.loadFullLibrary();
     
     @Override
     public String preProcess(String token) {

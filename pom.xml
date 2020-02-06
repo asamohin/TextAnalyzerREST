@@ -24,30 +24,116 @@
         <java-version>1.8</java-version>
         <!--<start-class>com.mai.textanalyzer.web.vaadin.pages.multiclassifierlearning.MultiLearner</start-class> -->
         <start-class>com.mai.textanalyzer.web.vaadin.pages.classification.Application</start-class>
+        <version.tawt>master-8cd0ade30d-1</version.tawt>
     </properties>
    
 
     <dependencies>
+
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1</version>
         </dependency>       
+
         <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
             <version>1.1.4</version>
         </dependency>        
+
+        <!-- start link lib jmorfsdk -->
         <dependency>
             <groupId>com.github.jalexpr</groupId>
-            <artifactId>JMorfSdk</artifactId>
-            <version>aef2ad2d3c</version>
+            <artifactId>tawt</artifactId>
+            <version>${version.tawt}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.jalexpr</groupId>
-            <artifactId>MorphologicalStructures</artifactId>
-            <version>521c1ddeed</version>
+            <groupId>com.github.jalexpr.tawt</groupId>
+            <artifactId>gama</artifactId>
+            <version>${version.tawt}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>jmorfsdk</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>morphological-structures</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.github.jalexpr.tawt</groupId>
+            <artifactId>ambiguity-words-filter</artifactId>
+            <version>${version.tawt}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>morphological-structures</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>rules-for-compatibility</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jalexpr.tawt</groupId>
+            <artifactId>jmorfsdk</artifactId>
+            <version>${version.tawt}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>morphological-structures</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jalexpr.tawt</groupId>
+            <artifactId>graphematic-parser</artifactId>
+            <version>${version.tawt}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jalexpr.tawt</groupId>
+            <artifactId>morphological-structures</artifactId>
+            <version>${version.tawt}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jalexpr.tawt</groupId>
+            <artifactId>rules-for-compatibility</artifactId>
+            <version>${version.tawt}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>morphological-structures</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jalexpr.tawt</groupId>
+            <artifactId>syntactic-parser</artifactId>
+            <version>${version.tawt}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>morphological-structures</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>gama</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>ambiguity-words-filter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ru.textanalysis.tawt</groupId>
+                    <artifactId>rules-for-compatibility</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>    
+        <!-- end link lib jmorfsdk -->            
      
         <dependency>
             <groupId>org.deeplearning4j</groupId>
@@ -197,15 +283,37 @@
             <artifactId>httpclient</artifactId>
             <version>4.3.6</version>
         </dependency>        
-    </dependencies>
-    
-    <repositories>
-      <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-      </repository>
-    </repositories>     
+    </dependencies> 
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>        
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>
