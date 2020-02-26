@@ -22,8 +22,10 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.8</java-version>
+
         <!--<start-class>com.mai.textanalyzer.web.vaadin.pages.multiclassifierlearning.MultiLearner</start-class> -->
-        <start-class>com.mai.textanalyzer.web.vaadin.pages.classification.Application</start-class>
+         <start-class>com.mai.textanalyzer.web.vaadin.pages.classification.Application</start-class> 
+        <!--<start-class> com.mai.textanalyzer.web.vaadin.pages.classification.TestRestClient_2</start-class>    -->
         <version.tawt>master-8cd0ade30d-1</version.tawt>
     </properties>
    
@@ -313,7 +315,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-    </repositories>
+    </repositories>    
     <build>
         <plugins>
             <plugin>
@@ -328,6 +330,7 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
+<!--            
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
@@ -346,7 +349,8 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2</version>
             </plugin>
-        </plugins>
+-->             
+        </plugins>       
     </build>
 
 </project>

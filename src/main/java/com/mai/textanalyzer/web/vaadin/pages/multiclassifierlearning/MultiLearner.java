@@ -5,7 +5,7 @@
  */
 package com.mai.textanalyzer.web.vaadin.pages.multiclassifierlearning;
 
-import com.mai.textanalyzer.web.vaadin.pages.classification.InputData;
+import com.mai.textanalyzer.web.vaadin.pages.classification.model.InputData;
 import java.io.*;
 import java.io.IOException;
 import java.nio.file.Files;

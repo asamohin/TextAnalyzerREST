@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/warn_test
+    username:
+    password:
+config:
+  rootdir: D:\\modeluper

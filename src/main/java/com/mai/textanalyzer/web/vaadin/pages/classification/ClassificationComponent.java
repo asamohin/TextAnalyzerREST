@@ -1,21 +1,27 @@
 package com.mai.textanalyzer.web.vaadin.pages.classification;
 
 import com.mai.textanalyzer.classifier.common.ClassifierEnum;
+import com.mai.textanalyzer.classifier.common.ClassifierTypeEnum;
 import com.mai.textanalyzer.classifier.common.Prediction;
 import com.mai.textanalyzer.classifier.common.TextClassifier;
 import com.mai.textanalyzer.indexing.common.Indexer;
 import com.mai.textanalyzer.indexing.common.IndexerEnum;
+import com.mai.textanalyzer.web.vaadin.pages.classification.model.InputData;
+import com.mai.textanalyzer.web.vaadin.pages.classification.model.OutputData;
+import com.mai.textanalyzer.web.vaadin.pages.classification.model.PredictionData;
 import com.vaadin.ui.CustomComponent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import java.util.ArrayList;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
-import java.util.HashMap;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 //import java.math.BigDecimal;
 //import java.math.RoundingMode;
 
@@ -37,16 +43,16 @@ public class ClassificationComponent extends CustomComponent {
 
            
            @RequestMapping(value = "/predictions", method = {RequestMethod.POST}, consumes = {"application/json"})
-    public HashMap<String,  HashMap<String, String>> getPredictions(@RequestBody InputData input) throws Exception{
+    public OutputData[] getPredictions(@RequestBody InputData input) throws Exception{
             int i = 0;
             int j = 0;
             String text = input.getText();
             ArrayList<String> classifier = input.getClassifier();
+            OutputData[] result = new OutputData[10];          
             String model = input.getModel();
-            
+            ArrayList<PredictionData> pList = new ArrayList<>();            
             ClassifierEnum selectedClassifier = null;
-            HashMap<String, String> map = new HashMap<>();
-            HashMap<String,  HashMap<String, String>>  newmap = new HashMap<>();
+            HashMap<String,  ArrayList<PredictionData>>  newmap = new HashMap<>();
             IndexerEnum indexerEnum = null;
             Indexer indexer = null;
             TextClassifier textClassifier = null;
@@ -62,7 +68,7 @@ public class ClassificationComponent extends CustomComponent {
             } 
             INDArray iNDArray = indexer.getIndex(text);            
             for(i = 0; i< classifier.size(); i++) {
-            map.clear();
+            pList.clear();
             selectedClassifier = null;
             switch (classifier.get(i)) {
                 case classifier_NAIVE_BAYES:  selectedClassifier = ClassifierEnum.NAIVE_BAYES;
@@ -101,15 +107,41 @@ public class ClassificationComponent extends CustomComponent {
             //System.out.println(predictions.get(0).getValue());
             //for (Prediction prediction : predictions) {
             for(j = 0; j < predictions.size(); j++) {
-            System.out.println(predictions.get(j).getTopic() + " - " + predictions.get(j).getValue() + " - " + predictions.get(j));
-            map.put(predictions.get(j).getTopic(), predictions.get(j).toString());
-            //map.put(prediction.getTopic(), new BigDecimal(prediction.getValue()).setScale(10, RoundingMode.UP).doubleValue());
+                System.out.println(predictions.get(j).getTopic() + " - " + predictions.get(j).getValue() + " - " + predictions.get(j));
+                pList.add(new PredictionData(predictions.get(j).getTopic(), Double.parseDouble(predictions.get(j).toString().replaceAll(",", "."))));
+                System.out.println("pList.get(j) = " + pList.get(j));
+            }
+            Collections.sort(pList, Collections.reverseOrder(PredictionData.COMPARE_BY_VALUE));
+            ArrayList<PredictionData> outList = new ArrayList<>();
+            if (input.getN() <= pList.size()) {
+                for (int k = 0; k < input.getN(); k++) {
+                    System.out.println("pList.get(k) = " + pList.get(k));
+                    outList.add(pList.get(k));
+                }
+            }
+            else 
+                outList = pList;
+            
+            result[i] = new OutputData(classifier.get(i), new ArrayList(outList));
+            outList.clear();
             }
             
-            newmap.put(classifier.get(i), new HashMap<>(map));
-            
-            }
-            return newmap;
-    }          
+            return result;
+    }        
       
+    @RequestMapping(value = "/classifierDescription", method = {RequestMethod.GET}, consumes = {"application/json"})
+    public ArrayList<String> getClassifierDescription() throws Exception{
+        ArrayList<String> info = new ArrayList<>();
+        info.add("Naive Bayes : Наивный баиесовский классификатор : NAIVE_BAYES");
+        info.add("Support Vector Machine : свм : SVM");
+        info.add("K-nearest Neighbours: к-ближайших : IBK");
+        info.add("Logistic Regression : логистичекая регрессия : LR");
+        info.add("Random Forest : дерево принятия решений : RF");
+        info.add("Multi Classifier : мульти классификатор : MYLTI_CLASSIFIER");
+        info.add("Bagging : беггинг : BAGGING");
+        info.add("Boostring : бустинг : BOOSTING");
+        info.add("Stacking : стекинг : STACKING");
+        
+        return info;
+    }    
 }

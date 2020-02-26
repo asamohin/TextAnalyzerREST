@@ -5,16 +5,17 @@
  */
 package com.mai.textanalyzer.web.vaadin.pages.classification;
 
+import com.mai.textanalyzer.web.vaadin.pages.classification.model.InputData;
+import java.io.*;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.io.*;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.client.HttpStatusCodeException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestTemplate;
 /**
  *
  * @author asamokhin
@@ -51,7 +52,7 @@ System.out.println(text);
 */
 ArrayList<String> classifier = new ArrayList<String>();
 //ArrayList<String> classifier = null;
-
+/*
 classifier.add("NAIVE_BAYES");
 classifier.add("SVM");
 classifier.add("IBK");
@@ -60,11 +61,13 @@ classifier.add("RF");
 classifier.add("BAGGING");
 classifier.add("BOOSTING");
 classifier.add("STACKING");
+*/        
 classifier.add("MYLTI_CLASSIFIER");
 
 input.setText(text);
 input.setClassifier(classifier);
 input.setModel("DOC2VEC");
+input.setN(Integer.valueOf(args[3]));
 HttpEntity<InputData> entity = new HttpEntity<InputData>(input);
 ResponseEntity<String> response = null;
 
