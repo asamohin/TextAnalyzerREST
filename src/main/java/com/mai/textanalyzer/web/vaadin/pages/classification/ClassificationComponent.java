@@ -90,7 +90,6 @@ public class ClassificationComponent extends CustomComponent {
                 case classifier_STACKING: selectedClassifier = ClassifierEnum.STACKING;
                          break;
             }
-            System.out.println(selectedClassifier);
             //System.out.println(map.size());
             if (iNDArray == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "В тексте недостаточно информации для его классификации");
@@ -107,15 +106,15 @@ public class ClassificationComponent extends CustomComponent {
             //System.out.println(predictions.get(0).getValue());
             //for (Prediction prediction : predictions) {
             for(j = 0; j < predictions.size(); j++) {
-                System.out.println(predictions.get(j).getTopic() + " - " + predictions.get(j).getValue() + " - " + predictions.get(j));
+                trace(predictions.get(j).getTopic() + " - " + predictions.get(j).getValue() + " - " + predictions.get(j));
                 pList.add(new PredictionData(predictions.get(j).getTopic(), Double.parseDouble(predictions.get(j).toString().replaceAll(",", "."))));
-                System.out.println("pList.get(j) = " + pList.get(j));
+                trace("pList.get(j) = " + pList.get(j));
             }
             Collections.sort(pList, Collections.reverseOrder(PredictionData.COMPARE_BY_VALUE));
             ArrayList<PredictionData> outList = new ArrayList<>();
             if (input.getN() <= pList.size()) {
                 for (int k = 0; k < input.getN(); k++) {
-                    System.out.println("pList.get(k) = " + pList.get(k));
+                    trace("pList.get(k) = " + pList.get(k));
                     outList.add(pList.get(k));
                 }
             }
@@ -143,5 +142,9 @@ public class ClassificationComponent extends CustomComponent {
         info.add("Stacking : стекинг : STACKING");
         
         return info;
-    }    
+    }
+    
+    private void trace(String s) {
+//        System.out.println(s);
+    }
 }

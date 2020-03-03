@@ -38,8 +38,8 @@ public class LoadingComponents {
 
     static {
     //public static void init() {
-        System.out.println(">>>Starting loading components");  
-        System.out.println("rootdir = " + Constants.getRootdir());
+        trace(">>>Starting loading components");  
+        trace("rootdir = " + Constants.getRootdir());
         Creater.checkRootFolderStructure(rootDir, null, null);
         doc2vec = Creater.checkExistIndexerModel(rootDir, IndexerEnum.DOC2VEC) ? Creater.loadIndexer(IndexerEnum.DOC2VEC, rootDir) : null;
         tfIdf = Creater.checkExistIndexerModel(rootDir, IndexerEnum.TF_IDF) ? Creater.loadIndexer(IndexerEnum.TF_IDF, rootDir) : null;
@@ -51,11 +51,11 @@ public class LoadingComponents {
             }
         }
         doc2vecClassifiers = new ArrayList<>();
-        System.out.println("ClassifierEnum.values()= " + ClassifierEnum.values());
+        trace("ClassifierEnum.values()= " + ClassifierEnum.values());
         for (ClassifierEnum classifierEnum : ClassifierEnum.values()) {
-            System.out.println("ClassifierEnum= " + classifierEnum);
+            trace("ClassifierEnum= " + classifierEnum);
             TextClassifier classifier = Creater.checkExistClassifierModel(rootDir, classifierEnum, IndexerEnum.DOC2VEC) ? Creater.loadClassifier(rootDir, classifierEnum, IndexerEnum.DOC2VEC) : null;
-            System.out.println("classifier= " + classifier);
+            trace("classifier= " + classifier);
             if (classifier != null) {
                 doc2vecClassifiers.add(classifier);
             }
@@ -93,5 +93,8 @@ public class LoadingComponents {
         }
         throw new UnsupportedOperationException();
     }
-
+    
+    private static void trace(String s) {
+//        System.out.println(s);
+    }
 }

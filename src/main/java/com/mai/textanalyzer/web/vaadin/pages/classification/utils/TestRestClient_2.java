@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mai.textanalyzer.web.vaadin.pages.classification;
+package com.mai.textanalyzer.web.vaadin.pages.classification.utils;
 
 import com.mai.textanalyzer.web.vaadin.pages.classification.model.InputData;
 import java.io.*;
