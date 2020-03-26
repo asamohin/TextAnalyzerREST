@@ -7,14 +7,18 @@
 package com.mai.textanalyzer.creater;
 import com.mai.textanalyzer.classifier.common.ClassifierEnum;
 import com.mai.textanalyzer.indexing.common.IndexerEnum;
+import com.mai.textanalyzer.web.vaadin.pages.multiclassifierlearning.MultiLearner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author asamokhin
  */
 public class LearnClassifief {
+    private static final Logger log = LoggerFactory.getLogger(LearnClassifief.class.getName());      
     public static void main(String[] args) throws Exception {
         Creater learndata = new Creater();
         List<ClassifierEnum> listClassifier = new ArrayList();
@@ -30,9 +34,9 @@ public class LearnClassifief {
         IndexerEnum indexerEnum = IndexerEnum.DOC2VEC;
         File rootDir = new File(args[0]);
         for(int i = 0; i < listClassifier.size(); i++) {
-        System.out.println("starting learn " + listClassifier.get(i));
+        log.info("starting learn " + listClassifier.get(i));
         learndata.createAndSaveClassifier(rootDir, listClassifier.get(i), indexerEnum,false);
-        System.out.println("learn " + listClassifier.get(i) + " finished successfully");
+        log.info("learn " + listClassifier.get(i) + " finished successfully");
         }
     }
 }

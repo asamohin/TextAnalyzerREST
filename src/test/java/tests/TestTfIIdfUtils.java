@@ -25,12 +25,12 @@ public class TestTfIIdfUtils {
 
 //        TfidfVectorizer tfidfVectorizer = TfIIdfUtils.createModel();
 //
-//        System.out.println(tfidfVectorizer.transform(text));
+//        log.info(tfidfVectorizer.transform(text));
 //
 //        VocabCache<VocabWord> vocabCache = tfidfVectorizer.getVocabCache();
 //        vocabCache.saveVocab();
-//        System.out.println("cache.numWords()- " + vocabCache.numWords());
-//        System.out.println("cache.totalNumberOfDocs()- " + vocabCache.totalNumberOfDocs());
+//        log.info("cache.numWords()- " + vocabCache.numWords());
+//        log.info("cache.totalNumberOfDocs()- " + vocabCache.totalNumberOfDocs());
 //
 //        //Saving
 //        TfIIdfUtils.saveModel(tfidfVectorizer);
@@ -42,9 +42,9 @@ public class TestTfIIdfUtils {
 ////                .allowParallelTokenization(false).build();
 ////        VocabCache<VocabWord> buildCache = constructor.buildJointVocabulary(true, false);
 //
-//        System.out.println("buildCache.numWords()- " + tfidfVectorizer2.getVocabCache().numWords());
-//        System.out.println("buildCache.totalNumberOfDocs()- " + tfidfVectorizer2.getVocabCache().totalNumberOfDocs());
+//        log.info("buildCache.numWords()- " + tfidfVectorizer2.getVocabCache().numWords());
+//        log.info("buildCache.totalNumberOfDocs()- " + tfidfVectorizer2.getVocabCache().totalNumberOfDocs());
 //
-//        System.out.println(tfidfVectorizer2.transform(text));
+//        log.info(tfidfVectorizer2.transform(text));
     }
 }

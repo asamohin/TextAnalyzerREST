@@ -9,6 +9,8 @@ import com.mai.textanalyzer.indexing.common.BasicTextModel;
 import java.util.List;
 import org.nd4j.linalg.api.iter.NdIndexIterator;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import weka.core.*;
 import weka.classifiers.*;
 import weka.classifiers.bayes.NaiveBayes;
@@ -17,7 +19,7 @@ import weka.classifiers.bayes.NaiveBayes;
  * @author Sergey
  */
 public class TestWekaClassifier {
-
+    private static final Logger log = LoggerFactory.getLogger(TestWekaClassifier.class.getName()); 
     /* The training data. */
     private Instances m_Data = null;
     /* The classifier. */
@@ -106,7 +108,7 @@ public class TestWekaClassifier {
         double predicted = m_Classifier.classifyInstance(instance);
         // Classify instance.
         String topic = m_Data.classAttribute().value((int) predicted);
-        System.out.println("Message classified as : " + topic);
+        log.info("Message classified as : " + topic);
         return topic;
     }
 

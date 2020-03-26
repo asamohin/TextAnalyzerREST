@@ -20,7 +20,6 @@ import java.util.List;
 import org.deeplearning4j.models.paragraphvectors.ParagraphVectors;
 import org.deeplearning4j.text.documentiterator.LabelAwareIterator;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
-import org.apache.log4j.Logger;
 import org.deeplearning4j.models.embeddings.inmemory.InMemoryLookupTable;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.VocabWord;
@@ -28,6 +27,7 @@ import org.deeplearning4j.plot.BarnesHutTsne;
 import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.primitives.Pair;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -36,7 +36,7 @@ import org.nd4j.linalg.primitives.Pair;
 public class Doc2VecUtils {
 
     private static final int MIN_WORD_FREQUENCY = 2;
-    private static final Logger log = Logger.getLogger(Doc2VecUtils.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(Doc2VecUtils.class.getName());  
 
 //    File file = new File("D:\\testClassDoc");
     public static Doc2Vec createModel(File folderWithDataForLearning) {
@@ -72,7 +72,7 @@ public class Doc2VecUtils {
             pv = WordVectorSerializer.readParagraphVectors(file);
             pv.setTokenizerFactory(IndexingUtils.getTokenizerFactory());
         } catch (IOException e) {
-            log.info(e);
+            log.info(e.getMessage());
             return null;
         }
         return new Doc2Vec(pv);
@@ -83,7 +83,7 @@ public class Doc2VecUtils {
         try {
             pv = WordVectorSerializer.readParagraphVectors(inputStream);
         } catch (IOException e) {
-            log.info(e);
+            log.info(e.getLocalizedMessage());
             return null;
         }
         return new Doc2Vec(pv);

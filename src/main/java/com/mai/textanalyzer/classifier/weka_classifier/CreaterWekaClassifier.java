@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.deeplearning4j.text.documentiterator.LabelledDocument;
+import org.slf4j.LoggerFactory;
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
@@ -37,7 +38,8 @@ import weka.core.converters.ConverterUtils.DataSource;
  * @author Sergey
  */
 public class CreaterWekaClassifier {
-
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(CreaterWekaClassifier.class.getName()); 
+    
     public static WekaClassifier getClassifier(ClassifierEnum classifier, Indexer indexer, File rootFolder, boolean useCSV) {
         AbstractClassifier abstractClassifier;
         if (classifier == ClassifierEnum.NAIVE_BAYES) {
@@ -81,7 +83,7 @@ public class CreaterWekaClassifier {
         if (useCSV) {
             try {
                 Instances data = DataSource.read(getDataCSVFile(rootFolder, indexer.getIndexerEnum(), DataType.LEARNING).getPath());
-                System.out.println("Instances from csv loadeds");
+                log.info("Instances from csv loadeds");
                 if (data.classIndex() == -1) {
                     data.setClassIndex(data.numAttributes() - 1);
                 }
@@ -101,7 +103,7 @@ public class CreaterWekaClassifier {
             BasicTextModel basicTextModel = new BasicTextModel(next.getLabels().iterator().next(), indexer.getIndex(next.getContent()));
             wc.updateModel(basicTextModel);
             count++;
-            System.out.println(count + "/" + size);
+            log.info(count + "/" + size);
         }
         wc.buildClassifier();
 

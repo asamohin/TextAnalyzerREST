@@ -5,20 +5,14 @@
  */
 package com.mai.textanalyzer.indexing.word2vec;
 
-import com.mai.textanalyzer.indexing.common.StopWords;
+import com.mai.textanalyzer.web.vaadin.pages.classification.ClassificationComponent;
 import java.io.File;
-import java.io.FileNotFoundException;
-import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
-import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
-import org.apache.log4j.Logger;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.paragraphvectors.ParagraphVectors;
 import org.deeplearning4j.models.word2vec.Word2Vec;
 import org.deeplearning4j.plot.BarnesHutTsne;
-import org.deeplearning4j.text.sentenceiterator.LineSentenceIterator;
-import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
-import org.deeplearning4j.text.sentenceiterator.SentencePreProcessor;
-import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -26,11 +20,11 @@ import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreproc
  */
 public class Word2VecUtils {
 
-    private static Logger log = Logger.getLogger(Word2VecUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(Word2VecUtils.class.getName());  
 /*
     public static void main(String[] args) throws FileNotFoundException {
         log.info("Load data....");
-        System.out.println("com.mai.textanalyzer.indexing.word2vec.Word2VecUtils.java");        
+        log.info("com.mai.textanalyzer.indexing.word2vec.Word2VecUtils.java");        
         SentenceIterator iter = new LineSentenceIterator(new File("D:\\testCopyDir\\dictionary.txt"));
         iter.setPreProcessor(new SentencePreProcessor() {
             @Override
@@ -64,7 +58,7 @@ public class Word2VecUtils {
 //            if (nextWord.isEmpty()) {
 //                break;
 //            }
-//            System.out.println("10 Words closest to " + nextWord + "': " + vec.wordsNearest(nextWord, 10));
+//            log.info("10 Words closest to " + nextWord + "': " + vec.wordsNearest(nextWord, 10));
 //        }
 //        int batchSize = 64;     //Number of examples in each minibatch
 //        int vectorSize = 300;   //Size of the word vectors. 300 in the Google News model
@@ -92,13 +86,13 @@ public class Word2VecUtils {
 //        net.init();
 //        net.setListeners(new ScoreIterationListener(1));
 //
-//        System.out.println("Starting training");
+//        log.info("Starting training");
 //        for (int i = 0; i < nEpochs; i++) {
 //            net.fit(vec.);
-//            System.out.println("Epoch " + i + " complete. Starting evaluation:");
+//            log.info("Epoch " + i + " complete. Starting evaluation:");
 //
 //            Evaluation evaluation = net.evaluate(test);
-//            System.out.println(evaluation.stats());
+//            log.info(evaluation.stats());
 //        }
     }
 */

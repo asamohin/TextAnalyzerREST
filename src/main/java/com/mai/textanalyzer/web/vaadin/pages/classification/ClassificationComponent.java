@@ -1,7 +1,6 @@
 package com.mai.textanalyzer.web.vaadin.pages.classification;
 
 import com.mai.textanalyzer.classifier.common.ClassifierEnum;
-import com.mai.textanalyzer.classifier.common.ClassifierTypeEnum;
 import com.mai.textanalyzer.classifier.common.Prediction;
 import com.mai.textanalyzer.classifier.common.TextClassifier;
 import com.mai.textanalyzer.indexing.common.Indexer;
@@ -11,11 +10,12 @@ import com.mai.textanalyzer.web.vaadin.pages.classification.model.OutputData;
 import com.mai.textanalyzer.web.vaadin.pages.classification.model.PredictionData;
 import com.vaadin.ui.CustomComponent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class ClassificationComponent extends CustomComponent {
+    private static final Logger log = LoggerFactory.getLogger(ClassificationComponent.class.getName());  
     
     public static final String model_DOC2VEC = "DOC2VEC";
     public static final String model_TF_IDF = "TF_IDF";
@@ -42,7 +43,7 @@ public class ClassificationComponent extends CustomComponent {
     public static final String classifier_STACKING = "STACKING";    
 
            
-           @RequestMapping(value = "/predictions", method = {RequestMethod.POST}, consumes = {"application/json"})
+    @RequestMapping(value = "/predictions", method = {RequestMethod.POST}, consumes = {"application/json"})
     public OutputData[] getPredictions(@RequestBody InputData input) throws Exception{
             int i = 0;
             int j = 0;
@@ -90,7 +91,7 @@ public class ClassificationComponent extends CustomComponent {
                 case classifier_STACKING: selectedClassifier = ClassifierEnum.STACKING;
                          break;
             }
-            //System.out.println(map.size());
+            //log.info(map.size());
             if (iNDArray == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "В тексте недостаточно информации для его классификации");
             }            
@@ -103,7 +104,7 @@ public class ClassificationComponent extends CustomComponent {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Классификатор "+ classifier.get(i) +" еще не обучен");
             }
             predictions = textClassifier.getDistribution(iNDArray);
-            //System.out.println(predictions.get(0).getValue());
+            //log.info(predictions.get(0).getValue());
             //for (Prediction prediction : predictions) {
             for(j = 0; j < predictions.size(); j++) {
                 trace(predictions.get(j).getTopic() + " - " + predictions.get(j).getValue() + " - " + predictions.get(j));
@@ -145,6 +146,6 @@ public class ClassificationComponent extends CustomComponent {
     }
     
     private void trace(String s) {
-//        System.out.println(s);
+//        log.info(s);
     }
 }

@@ -6,19 +6,22 @@
 package tests;
 
 import com.mai.textanalyzer.word_processing.PorterStremmer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sergey
  */
 public class TestPorterStreemer {
-
+    private static final Logger log = LoggerFactory.getLogger(TestPorterStreemer.class.getName()); 
+    
     public static void main(String[] args) {
-        System.out.println(PorterStremmer.stem("колонизация"));
-        System.out.println(PorterStremmer.stem("колонизацию"));
-        System.out.println(PorterStremmer.stem("покупаешь"));
-        System.out.println(PorterStremmer.stem("покупаем"));
-        System.out.println(PorterStremmer.stem("покупают"));
+        log.info(PorterStremmer.stem("колонизация"));
+        log.info(PorterStremmer.stem("колонизацию"));
+        log.info(PorterStremmer.stem("покупаешь"));
+        log.info(PorterStremmer.stem("покупаем"));
+        log.info(PorterStremmer.stem("покупают"));
 
     }
 }

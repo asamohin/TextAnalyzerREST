@@ -15,10 +15,10 @@ import java.util.NoSuchElementException;
 public class InitialForm {
 
     public static String getInitialForm(String word, JMorfSdk jMorfSdk ) {
-          //System.out.println("1- " + word);
+          //log.info("1- " + word);
           //JMorfSdk jMorfSdk = JMorfSdkLoad.loadFullLibrary();
           try {
-            //System.out.println("2- " + jMorfSdk.getAllCharacteristicsOfForm(word).getFirst().getInitialFormString());
+            //log.info("2- " + jMorfSdk.getAllCharacteristicsOfForm(word).getFirst().getInitialFormString());
             return jMorfSdk.getAllCharacteristicsOfForm(word).getFirst().getInitialFormString();
           }
           catch (NoSuchElementException e) {

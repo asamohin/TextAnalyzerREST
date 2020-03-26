@@ -19,6 +19,8 @@ import org.h2.tools.DeleteDbFiles;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -28,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
  * @author asamokhin
  */
 public class MultiLearner {
+    private static final Logger log = LoggerFactory.getLogger(MultiLearner.class.getName());     
     private static final String rootPath = "d:\\modeluper\\DocForTest\\";
     private static final String[] classifierNames = {"NAIVE_BAYES", "SVM", "IBK", "LR", "RF", "BAGGING", "BOOSTING", "STACKING"};
     //private static final String[] classifierNames = {"STACKING"};
@@ -65,9 +68,9 @@ public class MultiLearner {
                 FN = 0;
                 FP = 0;
                 TN = 0;             
-                //System.out.println("dirName = " + dirName);
+                //log.info("dirName = " + dirName);
                 String[] fileNames = getFileList(dirName);
-                //System.out.println("fileNames = " + fileNames.length);            
+                //log.info("fileNames = " + fileNames.length);            
                 for (String fileName : fileNames) {
                 //работаем с темой dirName, проанализировали все тексты из этой области
                 resTopic = runClassifier(fileName, dirName, input);
@@ -87,7 +90,7 @@ public class MultiLearner {
                 }              
                 FN = fileNames.length - TP;
                 TN = anotherFileNames.length - FP;
-                System.out.println("FN = " + FN + "; TP = " + TP + "; " + "TN = " + TN + "; FP = " + FP);
+                log.info("FN = " + FN + "; TP = " + TP + "; " + "TN = " + TN + "; FP = " + FP);
                 if (TP + FP != 0)
                     precision = (double)TP / (double)(TP + FP);
                 else
@@ -100,8 +103,8 @@ public class MultiLearner {
                     F = 2.0 * precision * recall / (precision + recall);
                 else
                     F = 0.0;
-                System.out.println("precision = " + precision + "; recall = " + recall + "; " + "F = " + F);
-                System.out.println("classifier = " + precision + "; topic = " + dirName);
+                log.info("precision = " + precision + "; recall = " + recall + "; " + "F = " + F);
+                log.info("classifier = " + precision + "; topic = " + dirName);
                 baseInsertIntoTopic(dirName);
                 baseInsertIntoAccuracy(classifierNames[j], String.valueOf(fileNames.length), String.valueOf(F));
             }
@@ -136,7 +139,7 @@ public class MultiLearner {
                     newmap = getClassifierResult(response.getBody(), input.getClassifier().get(0));                  
                 }
                 catch (HttpStatusCodeException e) {
-                    System.out.println(e.getResponseBodyAsString());
+                    log.info(e.getResponseBodyAsString());
                 } 
             
             return newmap;

@@ -9,22 +9,19 @@ import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.datavec.api.records.reader.impl.csv.CSVSequenceRecordReader;
-import org.datavec.api.writable.Writable;
-import weka.core.Instances;
-import weka.core.converters.CSVSaver;
-import weka.core.converters.ConverterUtils.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sergey
  */
 public class TestCSV {
-
+    private static final Logger log = LoggerFactory.getLogger(TestCSV.class.getName()); 
+    
     public static void main(String[] args) throws Exception {
         String csv = "C:\\Users\\Sergey\\Desktop\\data.csv";
 
@@ -55,7 +52,7 @@ public class TestCSV {
         List<String[]> allRows = reader.readAll();
         //Read CSV line by line and use the string array as you want
         for (String[] row : allRows) {
-            System.out.println(Arrays.toString(row));
+            log.info(Arrays.toString(row));
         }
     }
 

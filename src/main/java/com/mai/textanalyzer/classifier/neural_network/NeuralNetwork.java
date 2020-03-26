@@ -5,16 +5,12 @@
  */
 package com.mai.textanalyzer.classifier.neural_network;
 
-import com.mai.textanalyzer.classifier.common.ClassifierEnum;
 import com.mai.textanalyzer.classifier.weka_classifier.WekaClassifier;
-import com.mai.textanalyzer.creater.Creater;
 import com.mai.textanalyzer.csv.CSVUtils;
 import com.mai.textanalyzer.csv.DataType;
 import com.mai.textanalyzer.indexing.common.BasicTextModel;
 import com.mai.textanalyzer.indexing.common.IndexerEnum;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,13 +36,16 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.nd4j.linalg.primitives.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sergey
  */
 public class NeuralNetwork {
-
+    private static final Logger log = LoggerFactory.getLogger(NeuralNetwork.class.getName());  
+    
     public static void main(String[] args) throws Exception {
         NeuralNetwork nn = new NeuralNetwork();
     }
@@ -80,7 +79,7 @@ public class NeuralNetwork {
         int batchSize = 50;
 
         long st = System.currentTimeMillis();
-        System.out.println("Preprocessing start time : " + st);
+        log.info("Preprocessing start time : " + st);
 
         File rootFolder = new File("c:\\utils\\DataForClassifier\\RootFolderSize62407");
 //        File rootFolder = new File("E:\\DataForClassifier\\RootFolderSizeBalance");
@@ -169,7 +168,7 @@ public class NeuralNetwork {
 //            os = new FileOutputStream(new File(Creater.getSaveModelFolder(rootFolder), "neuronNet" + "Log.txt"));
         String info = "";
         for (int n = 0; n < nEpochs; n++) {
-            System.out.println("Start " + n + " epoch");
+            log.info("Start " + n + " epoch");
             net.fit(trainIter);
             if (n % 2 == 0) {
                 Evaluation eval = new Evaluation(labelsSource, 4);
@@ -178,11 +177,11 @@ public class NeuralNetwork {
                     INDArray features = t.getFeatureMatrix();
                     INDArray lables = t.getLabels();
                     INDArray predicted = net.output(features, false);
-                    System.out.println(predicted);
+                    log.info(predicted.shapeInfoToString());
                     eval.eval(lables, predicted);
                 }
                 testIter.reset();
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" + eval.stats());
+                log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" + eval.stats());
 //                    info = n + " epohe: " + eval.stats() + "\n";
 //                    os.write(info.getBytes(), 0, info.length());
             }
@@ -203,7 +202,7 @@ public class NeuralNetwork {
         double[] features = new double[labels.size()];
         int index = labels.indexOf(label);
         if (index < 0) {
-            System.out.println(label);
+            log.info(label);
         }
         features[index] = 1;
         return Nd4j.create(features);

@@ -6,6 +6,10 @@ package tests;
 import com.mai.textanalyzer.indexing.doc2vec.Doc2Vec;
 import com.mai.textanalyzer.indexing.doc2vec.Doc2VecUtils;
 import com.mai.textanalyzer.word_processing.RusUTF8FileLabelAwareIterator;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.api.OptimizationAlgorithm;
 import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
@@ -15,16 +19,14 @@ import org.deeplearning4j.nn.conf.layers.DenseLayer;
 import org.deeplearning4j.nn.conf.layers.OutputLayer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
+import org.deeplearning4j.text.documentiterator.LabelledDocument;
 import org.nd4j.linalg.activations.Activation;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.lossfunctions.LossFunctions;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import org.deeplearning4j.text.documentiterator.LabelledDocument;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.lossfunctions.LossFunctions;
 import org.nd4j.linalg.primitives.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * - Notes: - Data files are stored at following location
@@ -32,7 +34,8 @@ import org.nd4j.linalg.primitives.Pair;
  * folder
  */
 public class TestNeuralNetwork {
-
+    private static final Logger log = LoggerFactory.getLogger(TestNeuralNetwork.class.getName()); 
+    
     public static void main(String args[]) {
 
         TestNeuralNetwork dg = new TestNeuralNetwork();
@@ -52,7 +55,7 @@ public class TestNeuralNetwork {
         int numHiddenNodes = numInputs * 2;
 
         long st = System.currentTimeMillis();
-        System.out.println("Preprocessing start time : " + st);
+        log.info("Preprocessing start time : " + st);
 
         File doc2VecModel = new File("E:\\DocForTest\\MiniTest\\SaveModel\\Doc2Vec\\Doc2VecModel");
         Doc2Vec doc2Vec = Doc2VecUtils.loadModel(doc2VecModel);
@@ -102,7 +105,7 @@ public class TestNeuralNetwork {
                 .addSourceFolder(folderWithDataForTest)
                 .build();
 
-        System.out.println("Evaluate model....");
+        log.info("Evaluate model....");
         Evaluation eval = new Evaluation(numOutputs);
         while (tearchingIteratorTest.hasNext()) {
             LabelledDocument document = tearchingIteratorTest.next();
@@ -115,7 +118,7 @@ public class TestNeuralNetwork {
         }
 
         //Print the evaluation statistics
-        System.out.println(eval.stats());
+        log.info(eval.stats());
     }
 
     public INDArray trasformLabels(String topic) {

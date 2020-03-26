@@ -8,6 +8,8 @@ package com.mai.textanalyzer.dao.accuracy;
 
 import com.mai.textanalyzer.classifier.common.ClassifierEnum;
 import com.mai.textanalyzer.indexing.common.IndexerEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 /**
@@ -15,6 +17,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  * @author artee
  */
 public class AccuracyGetter {
+        private static final Logger log = LoggerFactory.getLogger(AccuracyGetter.class.getName()); 
         public static void main(String[] args) throws Exception {
             ClassifierEnum classifierEnum = ClassifierEnum.NAIVE_BAYES;
             IndexerEnum indexerEnum = IndexerEnum.DOC2VEC;
@@ -22,6 +25,6 @@ public class AccuracyGetter {
             AccuracyDao na = new AccuracyDao();
             //na.setJdbcTemplate(null);
             //as.setAccuracyDao(na);
-            System.out.println(as.getMapAccuracy(classifierEnum, indexerEnum));
+            log.info(as.getMapAccuracy(classifierEnum, indexerEnum).toString());
         }
 }

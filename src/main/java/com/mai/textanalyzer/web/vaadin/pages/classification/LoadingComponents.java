@@ -14,13 +14,16 @@ import com.mai.textanalyzer.indexing.common.IndexerEnum;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sergey
  */
 public class LoadingComponents {
-
+    private static final Logger log = LoggerFactory.getLogger(LoadingComponents.class.getName()); 
+    
     private static LoadingComponents instance;
         private LoadingComponents(){}
         public static LoadingComponents getInstance(){
@@ -38,8 +41,8 @@ public class LoadingComponents {
 
     static {
     //public static void init() {
-        trace(">>>Starting loading components");  
-        trace("rootdir = " + Constants.getRootdir());
+        log.info(">>>Starting loading components");  
+        log.info("rootdir = " + Constants.getRootdir());
         Creater.checkRootFolderStructure(rootDir, null, null);
         doc2vec = Creater.checkExistIndexerModel(rootDir, IndexerEnum.DOC2VEC) ? Creater.loadIndexer(IndexerEnum.DOC2VEC, rootDir) : null;
         tfIdf = Creater.checkExistIndexerModel(rootDir, IndexerEnum.TF_IDF) ? Creater.loadIndexer(IndexerEnum.TF_IDF, rootDir) : null;
@@ -51,11 +54,11 @@ public class LoadingComponents {
             }
         }
         doc2vecClassifiers = new ArrayList<>();
-        trace("ClassifierEnum.values()= " + ClassifierEnum.values());
+        log.info("ClassifierEnum.values()= " + ClassifierEnum.values());
         for (ClassifierEnum classifierEnum : ClassifierEnum.values()) {
-            trace("ClassifierEnum= " + classifierEnum);
+            log.info("ClassifierEnum= " + classifierEnum);
             TextClassifier classifier = Creater.checkExistClassifierModel(rootDir, classifierEnum, IndexerEnum.DOC2VEC) ? Creater.loadClassifier(rootDir, classifierEnum, IndexerEnum.DOC2VEC) : null;
-            trace("classifier= " + classifier);
+            log.info("classifier= " + classifier);
             if (classifier != null) {
                 doc2vecClassifiers.add(classifier);
             }
@@ -93,8 +96,9 @@ public class LoadingComponents {
         }
         throw new UnsupportedOperationException();
     }
-    
+/*    
     private static void trace(String s) {
-//        System.out.println(s);
+        log.info(s);
     }
+*/    
 }

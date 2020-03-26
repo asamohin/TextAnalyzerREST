@@ -21,6 +21,7 @@ import com.mai.textanalyzer.indexing.doc2vec.Doc2VecUtils;
 import com.mai.textanalyzer.indexing.tf_idf.TfIIdfUtils;
 import com.mai.textanalyzer.indexing.tf_idf.TfIdf;
 import java.io.File;
+import org.slf4j.LoggerFactory;
 
 /**
  * утилиарный класс для удобного создания класфикаторов. Необхоима указыать
@@ -31,7 +32,8 @@ import java.io.File;
  * @author Sergey
  */
 public final class Creater {
-
+   private static final org.slf4j.Logger log = LoggerFactory.getLogger(Creater.class.getName()); 
+   
     private final static String DOC_FOR_LEARNING_FOLDER = "DocForLearning"; // Папка с данными для обучения
     private final static String DOC_FOR_TEST_FOLDER = "DocForTest";//Папка с данными для тестирования
     private final static String SAVE_MODEL_FOLDER = "SaveModel";//Папка в которую модель будет сохранена после обучения
@@ -157,7 +159,7 @@ public final class Creater {
      */
     public static void checkRootFolderStructure(File rootFolder, String modelName, Boolean forSave) {
         File checkingFile = getDocForLearningFolder(rootFolder);
-        System.out.println("rootFolder = " + rootFolder);
+        log.info("rootFolder = " + rootFolder);
         if (!checkingFile.exists() || !checkingFile.isDirectory()) {
             throw new RuntimeException("Не удалось найти: " + checkingFile.getPath());
         }
@@ -188,20 +190,20 @@ public final class Creater {
         if (classifierEnum == ClassifierEnum.MYLTI_CLASSIFIER) {
            
             for (ClassifierEnum ce : ClassifierEnum.values()) {
-                System.out.println("ClassifierEnum.getFullNameModel(ce, indexingEnum)= " + ClassifierEnum.getFullNameModel(ce, indexingEnum));
-                System.out.println("new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(ce, indexingEnum)).exists()= " + new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(ce, indexingEnum)).exists());
+                log.info("ClassifierEnum.getFullNameModel(ce, indexingEnum)= " + ClassifierEnum.getFullNameModel(ce, indexingEnum));
+                log.info("new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(ce, indexingEnum)).exists()= " + new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(ce, indexingEnum)).exists());
                 if (ce != ClassifierEnum.MYLTI_CLASSIFIER && !new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(ce, indexingEnum)).exists()) {
-                    System.out.println("ClassifierEnum= " + ce);                    
-                    System.out.println("MYLTI_CLASSIFIER is false");
+                    log.info("ClassifierEnum= " + ce);                    
+                    log.info("MYLTI_CLASSIFIER is false");
                     return false;
                 }
             }
-            System.out.println("MYLTI_CLASSIFIER is true");
+            log.info("MYLTI_CLASSIFIER is true");
             return true;
         }
-        System.out.println("0ClassifierEnum= " + classifierEnum);
-        System.out.println("0ClassifierEnum.getFullNameModel(ce, indexingEnum)= " + ClassifierEnum.getFullNameModel(classifierEnum, indexingEnum));  
-        System.out.println("0new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(ce, indexingEnum)).exists()= " + new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(classifierEnum, indexingEnum)).exists());
+        log.info("0ClassifierEnum= " + classifierEnum);
+        log.info("0ClassifierEnum.getFullNameModel(ce, indexingEnum)= " + ClassifierEnum.getFullNameModel(classifierEnum, indexingEnum));  
+        log.info("0new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(ce, indexingEnum)).exists()= " + new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(classifierEnum, indexingEnum)).exists());
         return new File(getSaveModelFolder(rootFolder), ClassifierEnum.getFullNameModel(classifierEnum, indexingEnum)).exists();
     }
 

@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,7 +25,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  * @author Sergey
  */
 public class AccuracyDao implements IAccuracyDao {
-
+    private static final Logger log = LoggerFactory.getLogger(AccuracyDao.class.getName()); 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -50,7 +52,7 @@ public class AccuracyDao implements IAccuracyDao {
                 .append(" VECTORIZATION_ID = :vectorization_id ")
                 .append(" AND CLASSIFIER_ID = :classifier_id ) ACC ")
                 .append(" LEFT OUTER JOIN TOPIC as TPK ON TPK.TOPIC_ID=ACC.TOPIC_ID ");
-        System.out.println("sql.toString() = " + sql.toString());
+        log.info("sql.toString() = " + sql.toString());
         Map<String, Object> paramМap = new HashMap<>();
         paramМap.put("classifier_id", classifierEnum.getId());
         paramМap.put("vectorization_id", indexerEnum.getId());
@@ -70,7 +72,7 @@ public class AccuracyDao implements IAccuracyDao {
                 .append(" (TOPIC_ID,VECTORIZATION_ID,CLASSIFIER_ID,DOC_COUNT,ACCURACY) ")
                 .append(" KEY(TOPIC_ID,VECTORIZATION_ID,CLASSIFIER_ID) ")
                 .append(" VALUES(:topic_id,:vectorization_id,:classifier_id,:doc_count,:accuracy) ");
-        System.out.println("sql.toString() = " + sql.toString());
+        log.info("sql.toString() = " + sql.toString());
         Map<String, Object> paramМap = new HashMap<>();
         paramМap.put("topic_id", topic_id);
         paramМap.put("vectorization_id", indexerEnum.getId());

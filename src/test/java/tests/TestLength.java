@@ -5,15 +5,19 @@
  */
 package tests;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author Sergey
  */
 public class TestLength {
-
+    private static final Logger log = LoggerFactory.getLogger(TestLength.class.getName()); 
+    
     public static void main(String[] args) {
         String[] str = new String[5];
-        System.out.println(str.length);
+        log.info(String.valueOf(str.length));
     }
 
 }

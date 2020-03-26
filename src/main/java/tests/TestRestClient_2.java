@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mai.textanalyzer.web.vaadin.pages.classification.utils;
+package tests;
 
+import com.mai.textanalyzer.dao.accuracy.AccuracyGetter;
 import com.mai.textanalyzer.web.vaadin.pages.classification.model.InputData;
 import java.io.*;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -21,6 +23,8 @@ import org.springframework.web.client.RestTemplate;
  * @author asamokhin
  */
 public class TestRestClient_2 {
+        private static final Logger log = LoggerFactory.getLogger(TestRestClient_2.class.getName());   
+        
     public static void main(String[] args) throws Exception {
 InputData input = new InputData();
 ByteArrayOutputStream outputBuffer = new ByteArrayOutputStream();
@@ -35,7 +39,7 @@ byte[] array = Files.readAllBytes(Paths.get(args[0]));
 
 outputBuffer.write(array);
 String text = new String(outputBuffer.toByteArray(), "UTF-8");
-System.out.println(text);
+log.info(text);
 /*
           FileReader reader = new FileReader("d:\\utils\\RootFolderSize62407\\DocForTest\\Административное право\\368a89d25d2711b5f75df9320703fbee.xml.txt");
         //FileReader reader = new FileReader("d:\\utils\\RootFolderSize62407\\DocForTest\\Авиация и космонавтика\\54564c0594e8596aea5d46111e9349bf.xml.txt");
@@ -75,7 +79,7 @@ ResponseEntity<String> response = null;
     response = restTemplate.postForEntity(args[1], entity, String.class);
  }
  catch (HttpStatusCodeException e) {
-     System.out.println(e.getResponseBodyAsString());
+     log.info(e.getResponseBodyAsString());
      return;
  }
         try(FileWriter writer = new FileWriter(args[2], false))
@@ -85,10 +89,10 @@ ResponseEntity<String> response = null;
         }
         catch(IOException ex){
              
-            System.out.println(ex.getMessage());
+            log.info(ex.getMessage());
         } 
         
-System.out.println("finish successful!");
+log.info("finish successful!");
 
     }
    

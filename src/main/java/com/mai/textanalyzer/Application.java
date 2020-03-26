@@ -1,8 +1,10 @@
-package com.mai.textanalyzer.web.vaadin.pages.classification;
+package com.mai.textanalyzer;
 
 import com.mai.textanalyzer.constants.Constants;
 import java.sql.SQLException;
 import org.h2.tools.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,12 +13,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import com.mai.textanalyzer.web.vaadin.pages.classification.LoadingComponents;
 
 
 @SpringBootApplication
 @ServletComponentScan
 @EnableAutoConfiguration
 public class Application extends SpringBootServletInitializer implements CommandLineRunner{   
+    private static final Logger log = LoggerFactory.getLogger(Application.class.getName());     
+    
     @Value("${config.rootdir}")
     private String rootdir;
     
@@ -28,7 +33,7 @@ public class Application extends SpringBootServletInitializer implements Command
     @Override
     public void run(String... args) throws Exception {
         Constants.getInstance();
-        System.out.println("run: set rootdir= " + rootdir);
+        log.info("run: set rootdir= " + rootdir);
         Constants.setRootdir(rootdir);
         startH2Server();     
         LoadingComponents.getInstance();
@@ -43,7 +48,7 @@ public class Application extends SpringBootServletInitializer implements Command
             
             Server h2Server = Server.createTcpServer().start();
             if (h2Server.isRunning(true)) {
-                System.out.println("H2 server was started and is running.");
+                log.info("H2 server was started and is running.");
             } else {
                 throw new RuntimeException("Could not start H2 server.");
             }

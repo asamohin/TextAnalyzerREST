@@ -25,13 +25,14 @@ import org.deeplearning4j.text.documentiterator.LabelledDocument;
 import org.nd4j.linalg.api.iter.NdIndexIterator;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sergey
  */
 public final class CSVUtils {
-
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(CSVUtils.class.getName()); 
     private static final String CSV_NAME_FILE = "data.csv";
     public static final String CSV_SEPARATOR = ",";
 
@@ -92,7 +93,7 @@ public final class CSVUtils {
             csvRow[csvRow.length - 1] = next.getLabel();
             rows.add(csvRow);
             countDoc++;
-            System.out.println(countDoc + "/" + size);
+            log.info(countDoc + "/" + size);
         }
         writeCSVData(getDataCSVFile(rootFolder, indexerEnum, dataType), rows);
     }

@@ -140,7 +140,7 @@ public class WekaClassifier implements Serializable, TextClassifier {
             double predicted = classifier.classifyInstance(instance);
             // Classify instance.
             String topic = data.classAttribute().value((int) predicted);
-//            System.out.println("Message classified as : " + topic);
+//            log.info("Message classified as : " + topic);
             return topic;
         } catch (Exception ex) {
             Logger.getLogger(WekaClassifier.class.getName()).log(Level.SEVERE, null, ex);
