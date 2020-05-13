@@ -69,6 +69,7 @@ public class Doc2VecUtils {
     public static Doc2Vec loadModel(File file) {
         ParagraphVectors pv;
         try {
+            log.info("pathToModel = " + file.getAbsolutePath());
             pv = WordVectorSerializer.readParagraphVectors(file);
             pv.setTokenizerFactory(IndexingUtils.getTokenizerFactory());
         } catch (IOException e) {
